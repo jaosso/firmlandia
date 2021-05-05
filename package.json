@@ -1,0 +1,21 @@
+{
+  "name": "firmalndia_last_attempt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify src/js/game.js -o public/bundle.js",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browserify": "^17.0.0",
+    "express": "^4.17.1",
+    "phaser": "^3.54.0",
+    "phaser3-rex-plugins": "^1.1.44",
+    "socket.io": "^4.0.1"
+  }
+}
