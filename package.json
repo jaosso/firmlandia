@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify src/js/game.js -o public/bundle.js",
+    "build": "browserify src/js/game.js -o public/js/bundle.js; cp src/js/button_plugin.js public/js/button_plugin.js; cp src/js/quiz_plugin.js public/js/quiz_plugin.js",
     "start": "node server.js"
   },
   "keywords": [],

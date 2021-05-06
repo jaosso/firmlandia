@@ -1,30 +1,4 @@
-// var express = require('express');
-// var app = express();
-// var server = require('http').Server(app);
-//
-// const port = 3000
-//
-// app.use(express.static(__dirname + '/public'));
-//
-// app.get('/', function (req, res) {
-//   res.sendFile(__dirname + '/index.html');
-// });
-//
-// server.listen(port, function () {
-//   console.log(`Listening on ${server.address().port}`);
-// });
-
-// reads in our .env file and makes those values available as environment variables
-// require('dotenv').config();
-
 const express = require('express');
-// const bodyParser = require('body-parser');
-// const cookieParser = require('cookie-parser');
-// const passport = require('passport');
-
-// const routes = require('./routes/main');
-// const secureRoutes = require('./routes/secure');
-// const passwordRoutes = require('./routes/password');
 
 // create an instance of an express app
 const app = express();
@@ -37,13 +11,13 @@ const players = {};
 
 app.use(express.static(__dirname + '/public'));
 app.get("/", function (req, res) {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
-app.get("/quiz.plugin.js", function(req, res) {
-  res.sendFile(_dirname + 'quiz_plugin.js');
+app.get("/quiz_plugin.js", function(req, res) {
+  res.sendFile(__dirname + '/public/js/quiz_plugin.js');
 });
 app.get("/button_plugin.js", function(req, res) {
-  res.sendFile(_dirname + 'button_plugin.js');
+  res.sendFile(__dirname + '/public/js/button_plugin.js');
 });
 
 server.listen(port, function () {
