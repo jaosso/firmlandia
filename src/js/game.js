@@ -1,6 +1,7 @@
 // import Phaser from 'phaser'
 // import BoardPlugin from 'phaser3-rex-plugins/plugins/board-plugin.js'
 var Phaser = require('phaser');
+var IO = require('socket.io-client');
 // var BoardPlugin = require('./rexboardplugin.min.js')
 var BoardPlugin = require('phaser3-rex-plugins/dist/rexboardplugin.min.js')
 
@@ -27,9 +28,10 @@ class MyGame extends Phaser.Scene {
     }
 
     create () {
+        this.socket = IO.connect();
         // create an board from the rexBoardPlugin with the predefined tilesmap
-        var innerboard = new Board(this, TILESMAP_INNERBOARD, 80, 80)
-        var outerboard = new Board(this, TILESMAP_OUTERBOARD, 50, 50)
+        var innerboard = new Board(this, TILESMAP_INNERBOARD, 80, 80);
+        var outerboard = new Board(this, TILESMAP_OUTERBOARD, 50, 50);
 
         // create a button to trigger the quiz function as long as there are no other mechanics to do so
         var buttonQuiz = this.add.text(1000, 100, 'Quiz', { fill: '#0f0' });

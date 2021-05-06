@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "phaser": "^3.54.0",
     "phaser3-rex-plugins": "^1.1.44",
-    "socket.io": "^4.0.1"
+    "socket.io": "^4.0.2",
+    "socket.io-client": "^4.0.2"
   }
 }
