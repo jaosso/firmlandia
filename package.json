@@ -1,0 +1,23 @@
+{
+  "name": "firmlandia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "keywords": [],
+  "author": "jaosso",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.1.0",
+    "superagent": "^6.1.0",
+    "supertest": "^6.1.6"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "npm": "^7.21.1",
+    "phaser": "^3.55.2",
+    "really-need": "^1.9.2"
+  }
+}
