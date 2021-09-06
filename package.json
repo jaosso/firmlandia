@@ -5,12 +5,12 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon app/server",
-    "test": "jest --coverage --watch",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "lint": "eslint --fix ."
   },
   "keywords": [],
   "author": "jaosso",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "eslint": "^7.32.0",
     "jest": "^27.1.0",
@@ -20,15 +20,13 @@
   },
   "dependencies": {
     "express": "^4.17.1",
-    "module-alias": "^2.2.2",
     "npm": "^7.21.1",
     "phaser": "^3.55.2",
     "really-need": "^1.9.2"
   },
-  "_moduleAliases": {
-    "@root": ".",
-    "@app": "app",
-    "@spec": "./spec"
+  "jest": {
+    "testEnvironment": "jest-environment-node",
+    "transform": {}
   },
   "eslintConfig": {
     "parserOptions": {
