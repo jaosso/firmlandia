@@ -4,20 +4,50 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest --coverage"
+    "start": "nodemon app/server",
+    "test": "jest --coverage --watch",
+    "lint": "eslint --fix ."
   },
   "keywords": [],
   "author": "jaosso",
   "license": "ISC",
   "devDependencies": {
+    "eslint": "^7.32.0",
     "jest": "^27.1.0",
+    "nodemon": "^2.0.12",
     "superagent": "^6.1.0",
     "supertest": "^6.1.6"
   },
   "dependencies": {
     "express": "^4.17.1",
+    "module-alias": "^2.2.2",
     "npm": "^7.21.1",
     "phaser": "^3.55.2",
     "really-need": "^1.9.2"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@app": "app",
+    "@spec": "./spec"
+  },
+  "eslintConfig": {
+    "parserOptions": {
+      "ecmaVersion": "latest"
+    },
+    "extends": [
+      "eslint:recommended"
+    ],
+    "env": {
+      "node": true,
+      "es6": true,
+      "jest": true
+    },
+    "rules": {
+      "semi": "warn",
+      "quotes": [
+        "warn",
+        "single"
+      ]
+    }
   }
 }
