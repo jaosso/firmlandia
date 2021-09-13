@@ -4,7 +4,7 @@ class BoardFactory {
   constructor() {}
 
   create(shape, prime_color, second_color) {
-    return new Board(shape, this, this.calcPath(shape), prime_color, second_color);
+    return new Board(shape, this.calcPath(shape), prime_color, second_color);
   }
 
   calcPath(shape) {
@@ -16,7 +16,7 @@ class BoardFactory {
 
     for (var x = 0; x < width; x++) {
       for (var y = 0; y < height; y++) {
-        console.log(x + ' ' + y);
+        // console.log(x + ' ' + y);
       }
     }
     return path;
