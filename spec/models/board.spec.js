@@ -7,6 +7,7 @@ describe('Board data object ', function () {
   beforeEach(function () {
     board = new Board(
       boardSettings.shape,
+      boardSettings.path,
       boardSettings.prime_color,
       boardSettings.second_color
     );
@@ -18,17 +19,21 @@ describe('Board data object ', function () {
 
   test('getters work properly, succeeds', function () {
     expect(board.getShape()).toEqual(boardSettings.shape);
+    expect(board.getPath()).toEqual(boardSettings.path);
     expect(board.getPrimeColor()).toEqual(boardSettings.prime_color);
     expect(board.getSecondColor()).toEqual(boardSettings.second_color);
     expect(typeof board.getTokenList()).toEqual(typeof {});
+    expect(board.getPathLength()).toEqual(boardSettings.path.length);
   });
 
   test('plain setters work properly, succeeds', function () {
     board.setShape(newBoardSettings.shape);
+    board.setPath(newBoardSettings.path);
     board.setPrimeColor(newBoardSettings.prime_color);
     board.setSecondColor(newBoardSettings.second_color);
 
     expect(board.getShape()).toEqual(newBoardSettings.shape);
+    expect(board.getPath()).toEqual(newBoardSettings.path);
     expect(board.getPrimeColor()).toEqual(newBoardSettings.prime_color);
     expect(board.getSecondColor()).toEqual(newBoardSettings.second_color);
   });
@@ -46,9 +51,5 @@ describe('Board data object ', function () {
     expect(newToken.getPlayerId()).toEqual(player_id);
     expect(newToken.getTokenColor()).toEqual(token_color);
     expect(newToken.getPosition()).toEqual(position);
-  });
-
-  test('get the proper length of the boards path when shape is valid, succeeds', function () {
-    expect(board.getPathLength()).toEqual(20);
   });
 });

@@ -1,8 +1,9 @@
-var Token = require("./token").Token;
+var Token = require('./token').Token;
 
 class Board {
-  constructor(shape, prime_color, second_color) {
+  constructor(shape, path, prime_color, second_color) {
     this.shape = shape;
+    this.path = path;
     this.prime_color = prime_color;
     this.second_color = second_color;
     this.token_list = {};
@@ -10,6 +11,10 @@ class Board {
 
   getShape() {
     return this.shape;
+  }
+
+  getPath() {
+    return this.path;
   }
 
   getPrimeColor() {
@@ -26,6 +31,14 @@ class Board {
 
   setShape(shape) {
     this.shape = shape;
+  }
+
+  setPath(path) {
+    this.path = path;
+  }
+
+  getPathLength() {
+    return this.path.length;
   }
 
   setPrimeColor(prime_color) {
