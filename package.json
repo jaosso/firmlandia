@@ -6,6 +6,7 @@
   "scripts": {
     "start": "nodemon app/server",
     "test": "jest --watch --coverage",
+    "test_coverage": "jest --coverage",
     "lint": "eslint --fix ."
   },
   "keywords": [],

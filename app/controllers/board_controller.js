@@ -1,7 +1,7 @@
 var Board = require('../models/board').Board;
 var HamiltonianCycle = require('./hamiltonian_cycle').HamiltonianCycle;
 
-class BoardFactory {
+class BoardController {
   constructor() {}
 
   create(shape, prime_color, second_color) {
@@ -75,4 +75,4 @@ function distanceBetween(p1, p2) {
   return res;
 }
 
-module.exports.BoardFactory = BoardFactory;
+module.exports.BoardController = BoardController;

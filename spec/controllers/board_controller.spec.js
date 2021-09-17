@@ -1,16 +1,16 @@
 var boardSettings = require('../spec_variables').boardSettings;
 
-var BoardFactory =
-  require('../../app/controllers/board_controller').BoardFactory;
+var BoardController=
+  require('../../app/controllers/board_controller').BoardController;
 
 describe('BoardFactory creates Board properly ', function () {
-  var boardFactory;
+  var boardController;
   beforeAll(function () {
-    boardFactory = new BoardFactory();
+    boardController = new BoardController();
   });
 
   test('when all params are valid, succeeds', function () {
-    var validBoard = boardFactory.create(
+    var validBoard = boardController.create(
       boardSettings.shape,
       boardSettings.prime_color,
       boardSettings.second_color
@@ -24,17 +24,19 @@ describe('BoardFactory creates Board properly ', function () {
 });
 
 describe('BoardFactory calculates the path for a given shape correctly ', function () {
-  var boardFactory;
+  var boardController;
   beforeAll(function () {
-    boardFactory = new BoardFactory();
+    boardController = new BoardController();
   });
 
   test('when empty shape is given, fails', function () {
-    expect(boardFactory.calcPath(['']).length).toEqual(null);
+    expect(boardController.calcPath(['']).length).toEqual(null);
   });
 
   test('when valid shape is given, succeeds', function () {
-    var validShape = ['S11', '101', '111'];
+    var validShape = ['S11', 
+                      '101', 
+                      '111'];
     var validPath = {
       length: 8,
       path: [
@@ -49,14 +51,14 @@ describe('BoardFactory calculates the path for a given shape correctly ', functi
       ],
     };
 
-    expect(boardFactory.calcPath(validShape).path).toEqual(validPath.path);
+    expect(boardController.calcPath(validShape).path).toEqual(validPath.path);
   });
 });
 
 describe('BoardFactory calculates adjacency matrix correctly ', function () {
-  var boardFactory;
+  var boardController;
   beforeAll(function () {
-    boardFactory = new BoardFactory();
+    boardController = new BoardController();
   });
 
   test('when diagonal is false, succeeds', function () {
@@ -71,10 +73,8 @@ describe('BoardFactory calculates adjacency matrix correctly ', function () {
       { x: 0, y: 1 },
     ];
 
-    console.log(boardFactory.buildAdjacencyMatrix(nodes, { diagonal: true }));
-
     expect(
-      boardFactory.buildAdjacencyMatrix(nodes, { diagonal: false })
+      boardController.buildAdjacencyMatrix(nodes, { diagonal: false })
     ).toEqual([
       [1, 1, 0, 0, 0, 0, 0, 1],
       [1, 1, 1, 0, 0, 0, 0, 0],
@@ -96,7 +96,7 @@ describe('BoardFactory calculates adjacency matrix correctly ', function () {
     ];
 
     expect(
-      boardFactory.buildAdjacencyMatrix(nodes, { diagonal: true })
+      boardController.buildAdjacencyMatrix(nodes, { diagonal: true })
     ).toEqual([
       [1, 1, 1, 1],
       [1, 1, 1, 1],
