@@ -1,5 +1,5 @@
 var Board = require('../models/board').Board;
-var TreeNode = require('../models/tree_node').TreeNode;
+var HamiltonianCycle = require('./hamiltonian_cycle').HamiltonianCycle;
 
 class BoardFactory {
   constructor() {}
@@ -17,24 +17,27 @@ class BoardFactory {
     var start;
     var nodes = [];
 
+    if (width === 0 || height === 0) return path;
+
     for (var x = 0; x < width; x++) {
       for (var y = 0; y < height; y++) {
-        if (shape[y].charAt(x) == 'S') {
+        if (shape[y].charAt(x) === 'S') {
           start = { x: x, y: y };
-          nodes.push(new TreeNode(start));
-        } else if (shape[y].charAt(x) == '1') {
-          nodes.push(new TreeNode({ x: x, y: y }));
+        } else if (shape[y].charAt(x) === '1') {
+          nodes.push({ x: x, y: y });
         }
       }
     }
 
+    nodes.unshift(start);
+
     var adjacencyMatrix = this.buildAdjacencyMatrix(nodes, options.diagonal);
 
-    var hamiltonianCycle = this.buildHamiltonianCycle(adjacencyMatrix);
+    var hamiltonianCycle = new HamiltonianCycle(adjacencyMatrix).getCycle();
 
     if (hamiltonianCycle != null) {
       for (let ind of hamiltonianCycle) {
-        path.path.push(nodes[ind].value);
+        path.path.push(nodes[ind]);
       }
 
       path.length = hamiltonianCycle.length;
@@ -52,7 +55,7 @@ class BoardFactory {
     for (let m in nodes) {
       var piv_incidence = [];
       for (let i in nodes) {
-        if (distanceBetween(nodes[m].getValue(), nodes[i].getValue()) <= lam) {
+        if (distanceBetween(nodes[m], nodes[i]) <= lam) {
           piv_incidence[i] = 1;
         } else {
           piv_incidence[i] = 0;
@@ -61,67 +64,6 @@ class BoardFactory {
       adjacencyMatrix[m] = piv_incidence;
     }
     return adjacencyMatrix;
-  }
-
-  // builds a hamiltonian cycle from an adjacency matrix; returns null if there is no hamiltonian cycle
-  buildHamiltonianCycle(adjacencyMatrix) {
-    this.adjacencyMatrix = adjacencyMatrix;
-    this.hamiltonianPath = [];
-    this.numOfVertexes = adjacencyMatrix.length;
-
-    this.hamiltonianPath[0] = 0;
-
-    if (this.findFeasibleSolution(1)) {
-      return this.hamiltonianPath;
-    }
-
-    return null;
-  }
-
-  findFeasibleSolution(position) {
-    if (position == this.numOfVertexes) {
-      if (
-        this.adjacencyMatrix[this.hamiltonianPath[position - 1]][
-          this.hamiltonianPath[0]
-        ] == 1
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    for (var vertexIndex = 1; vertexIndex < this.numOfVertexes; ++vertexIndex) {
-      if (this.isFeasible(vertexIndex, position)) {
-        this.hamiltonianPath[position] = vertexIndex;
-
-        if (this.findFeasibleSolution(position + 1)) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
-
-  isFeasible(vertexIndex, actualPosition) {
-    // first criterion: whether two nodes are connected?
-    if (
-      this.adjacencyMatrix[this.hamiltonianPath[actualPosition - 1]][
-        vertexIndex
-      ] == 0
-    ) {
-      return false;
-    }
-
-    // second criterion: whether we have visited it or not
-    for (let i = 0; i < actualPosition; i++) {
-      if (this.hamiltonianPath[i] == vertexIndex) {
-        return false;
-      }
-    }
-
-    return true;
   }
 }
 

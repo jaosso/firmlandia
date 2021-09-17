@@ -1,5 +1,4 @@
 var boardSettings = require('../spec_variables').boardSettings;
-var TreeNode = require('../../app/models/tree_node').TreeNode;
 
 var BoardFactory =
   require('../../app/controllers/board_controller').BoardFactory;
@@ -18,28 +17,7 @@ describe('BoardFactory creates Board properly ', function () {
     );
 
     expect(validBoard.getShape()).toEqual(boardSettings.shape);
-    expect(validBoard.getPath().path).toEqual([
-      { x: 0, y: 0 },
-      { x: 1, y: 0 },
-      { x: 2, y: 0 },
-      { x: 3, y: 0 },
-      { x: 4, y: 0 },
-      { x: 5, y: 0 },
-      { x: 5, y: 1 },
-      { x: 5, y: 2 },
-      { x: 5, y: 3 },
-      { x: 5, y: 4 },
-      { x: 5, y: 5 },
-      { x: 4, y: 5 },
-      { x: 3, y: 5 },
-      { x: 2, y: 5 },
-      { x: 1, y: 5 },
-      { x: 0, y: 5 },
-      { x: 0, y: 4 },
-      { x: 0, y: 3 },
-      { x: 0, y: 2 },
-      { x: 0, y: 1 },
-    ]);
+    expect(validBoard.getPath().path).toEqual(boardSettings.path);
     expect(validBoard.getPrimeColor()).toEqual(boardSettings.prime_color);
     expect(validBoard.getSecondColor()).toEqual(boardSettings.second_color);
   });
@@ -83,15 +61,17 @@ describe('BoardFactory calculates adjacency matrix correctly ', function () {
 
   test('when diagonal is false, succeeds', function () {
     var nodes = [
-      new TreeNode({ x: 0, y: 0 }),
-      new TreeNode({ x: 1, y: 0 }),
-      new TreeNode({ x: 2, y: 0 }),
-      new TreeNode({ x: 2, y: 1 }),
-      new TreeNode({ x: 2, y: 2 }),
-      new TreeNode({ x: 1, y: 2 }),
-      new TreeNode({ x: 0, y: 2 }),
-      new TreeNode({ x: 0, y: 1 }),
+      { x: 0, y: 0 },
+      { x: 1, y: 0 },
+      { x: 2, y: 0 },
+      { x: 2, y: 1 },
+      { x: 2, y: 2 },
+      { x: 1, y: 2 },
+      { x: 0, y: 2 },
+      { x: 0, y: 1 },
     ];
+
+    console.log(boardFactory.buildAdjacencyMatrix(nodes, { diagonal: true }));
 
     expect(
       boardFactory.buildAdjacencyMatrix(nodes, { diagonal: false })
@@ -109,10 +89,10 @@ describe('BoardFactory calculates adjacency matrix correctly ', function () {
 
   test('when diagonal is true, succeeds', function () {
     var nodes = [
-      new TreeNode({ x: 0, y: 0 }),
-      new TreeNode({ x: 1, y: 0 }),
-      new TreeNode({ x: 0, y: 1 }),
-      new TreeNode({ x: 1, y: 1 }),
+      { x: 0, y: 0 },
+      { x: 0, y: 1 },
+      { x: 1, y: 1 },
+      { x: 1, y: 0 },
     ];
 
     expect(
@@ -122,42 +102,6 @@ describe('BoardFactory calculates adjacency matrix correctly ', function () {
       [1, 1, 1, 1],
       [1, 1, 1, 1],
       [1, 1, 1, 1],
-    ]);
-  });
-});
-
-describe('BoardFactory calculates hamiltonian cycle correctly from adjacency matrix ', function () {
-  var boardFactory;
-  beforeAll(function () {
-    boardFactory = new BoardFactory();
-  });
-
-  test(' when there is no hamiltonian cycle, fails', function () {
-    var invalidAdjacencyMatrix = [
-      [1, 0, 0],
-      [0, 1, 0],
-      [0, 0, 1],
-    ];
-
-    expect(boardFactory.buildHamiltonianCycle(invalidAdjacencyMatrix)).toEqual(
-      null
-    );
-  });
-
-  test(' when there is a hamiltonian cycle, succeeds', function () {
-    var validAdjacencyMatrix = [
-      [1, 1, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 1, 1],
-    ];
-
-    expect(boardFactory.buildHamiltonianCycle(validAdjacencyMatrix)).toEqual([
-      0, 1, 2, 3, 4, 5, 6, 7,
     ]);
   });
 });

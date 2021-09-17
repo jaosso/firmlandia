@@ -8,7 +8,7 @@ class authenticator {
 
   user_login(user_name, server_pwd) {
     if (
-      server_pwd == this.server_password_hash &&
+      server_pwd === this.server_password_hash &&
       check_if_user_name_is_valid(
         user_name,
         this.min_user_name_length,
