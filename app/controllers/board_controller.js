@@ -4,8 +4,24 @@ var HamiltonianCycle = require('./hamiltonian_cycle').HamiltonianCycle;
 class BoardController {
   constructor() {}
 
-  create(shape, prime_color, second_color) {
-    return new Board(shape, this.calcPath(shape), prime_color, second_color);
+  create(options) {
+    options = Object.assign(
+      {
+        shape: null,
+        path: null,
+        diagonal: false,
+        prime_color: null,
+        second_color: null,
+      },
+      options
+    );
+
+    return new Board(
+      options.shape,
+      options.path || this.calcPath(options.shape, {diagonal: options.diagonal}),
+      options.prime_color,
+      options.second_color
+    );
   }
 
   calcPath(shape, options = { diagonal: false }) {

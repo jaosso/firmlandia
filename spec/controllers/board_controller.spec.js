@@ -1,6 +1,6 @@
 var boardSettings = require('../spec_variables').boardSettings;
 
-var BoardController=
+var BoardController =
   require('../../app/controllers/board_controller').BoardController;
 
 describe('BoardFactory creates Board properly ', function () {
@@ -10,11 +10,12 @@ describe('BoardFactory creates Board properly ', function () {
   });
 
   test('when all params are valid, succeeds', function () {
-    var validBoard = boardController.create(
-      boardSettings.shape,
-      boardSettings.prime_color,
-      boardSettings.second_color
-    );
+    var boardOptions = {
+      shape: boardSettings.shape,
+      prime_color: boardSettings.prime_color,
+      second_color: boardSettings.second_color,
+    };
+    var validBoard = boardController.create(boardOptions);
 
     expect(validBoard.getShape()).toEqual(boardSettings.shape);
     expect(validBoard.getPath().path).toEqual(boardSettings.path);
@@ -34,9 +35,7 @@ describe('BoardFactory calculates the path for a given shape correctly ', functi
   });
 
   test('when valid shape is given, succeeds', function () {
-    var validShape = ['S11', 
-                      '101', 
-                      '111'];
+    var validShape = ['S11', '101', '111'];
     var validPath = {
       length: 8,
       path: [
