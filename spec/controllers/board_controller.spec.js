@@ -3,7 +3,7 @@ var boardSettings = require('../spec_variables').boardSettings;
 var BoardController =
   require('../../app/controllers/board_controller').BoardController;
 
-describe('BoardFactory creates Board properly ', function () {
+describe('BoardController creates Board properly ', function () {
   var boardController;
   beforeAll(function () {
     boardController = new BoardController();
@@ -15,7 +15,7 @@ describe('BoardFactory creates Board properly ', function () {
       prime_color: boardSettings.prime_color,
       second_color: boardSettings.second_color,
     };
-    var validBoard = boardController.create(boardOptions);
+    var validBoard = boardController.createBoard(boardOptions);
 
     expect(validBoard.getShape()).toEqual(boardSettings.shape);
     expect(validBoard.getPath().path).toEqual(boardSettings.path);
@@ -24,83 +24,37 @@ describe('BoardFactory creates Board properly ', function () {
   });
 });
 
-describe('BoardFactory calculates the path for a given shape correctly ', function () {
+describe('BoardController moves PlayerToken correctly ', function () {
   var boardController;
+  var player = { user_id: 0, user_color: 'green' };
   beforeAll(function () {
     boardController = new BoardController();
-  });
-
-  test('when empty shape is given, fails', function () {
-    expect(boardController.calcPath(['']).length).toEqual(null);
-  });
-
-  test('when valid shape is given, succeeds', function () {
-    var validShape = ['S11', '101', '111'];
-    var validPath = {
-      length: 8,
-      path: [
-        { x: 0, y: 0 },
-        { x: 0, y: 1 },
-        { x: 0, y: 2 },
-        { x: 1, y: 2 },
-        { x: 2, y: 2 },
-        { x: 2, y: 1 },
-        { x: 2, y: 0 },
-        { x: 1, y: 0 },
-      ],
+    var boardOptions = {
+      shape: boardSettings.shape,
+      prime_color: boardSettings.prime_color,
+      second_color: boardSettings.second_color,
     };
-
-    expect(boardController.calcPath(validShape).path).toEqual(validPath.path);
-  });
-});
-
-describe('BoardFactory calculates adjacency matrix correctly ', function () {
-  var boardController;
-  beforeAll(function () {
-    boardController = new BoardController();
+    boardController.createBoard(boardOptions);
   });
 
-  test('when diagonal is false, succeeds', function () {
-    var nodes = [
-      { x: 0, y: 0 },
-      { x: 1, y: 0 },
-      { x: 2, y: 0 },
-      { x: 2, y: 1 },
-      { x: 2, y: 2 },
-      { x: 1, y: 2 },
-      { x: 0, y: 2 },
-      { x: 0, y: 1 },
-    ];
+  beforeEach(function () {
+    var position = 0;
+    boardController.addPlayerToken(player, position);
+  });
 
+  test('in forward direction, succeeds', function () {
+    var dice = 3;
+    boardController.movePlayerTokenForwards(player.user_id, dice);
     expect(
-      boardController.buildAdjacencyMatrix(nodes, { diagonal: false })
-    ).toEqual([
-      [1, 1, 0, 0, 0, 0, 0, 1],
-      [1, 1, 1, 0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 0, 0, 0, 0],
-      [0, 0, 1, 1, 1, 0, 0, 0],
-      [0, 0, 0, 1, 1, 1, 0, 0],
-      [0, 0, 0, 0, 1, 1, 1, 0],
-      [0, 0, 0, 0, 0, 1, 1, 1],
-      [1, 0, 0, 0, 0, 0, 1, 1],
-    ]);
+      boardController.board.getTokenList()[player.user_id].getPosition()
+    ).toEqual(3);
   });
 
-  test('when diagonal is true, succeeds', function () {
-    var nodes = [
-      { x: 0, y: 0 },
-      { x: 0, y: 1 },
-      { x: 1, y: 1 },
-      { x: 1, y: 0 },
-    ];
-
+  test('in backward direction, succeeds', function () {
+    var dice = 3;
+    boardController.movePlayerTokenBackwards(player.user_id, dice);
     expect(
-      boardController.buildAdjacencyMatrix(nodes, { diagonal: true })
-    ).toEqual([
-      [1, 1, 1, 1],
-      [1, 1, 1, 1],
-      [1, 1, 1, 1],
-      [1, 1, 1, 1],
-    ]);
+      boardController.board.getTokenList()[player.user_id].getPosition()
+    ).toEqual(-3);
   });
 });
