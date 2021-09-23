@@ -37,24 +37,82 @@ describe('BoardController moves PlayerToken correctly ', function () {
     boardController.createBoard(boardOptions);
   });
 
-  beforeEach(function () {
-    var position = 0;
-    boardController.addPlayerToken(player, position);
+  describe('when isRounds is enabled ', function () {
+    beforeEach(function () {
+      var position = 0;
+      boardController.addPlayerToken(player, position);
+
+      if (!boardController.isRounds()) boardController.toggleRounds();
+    });
+
+    test('moving forwards from start, succeeds', function () {
+      var dice = 3;
+      boardController.board.getTokenList()[player.user_id].setPosition(0);
+
+      boardController.movePlayerTokenForwards(player.user_id, dice);
+      expect(
+        boardController.board.getTokenList()[player.user_id].getPosition()
+      ).toEqual(3);
+    });
+
+    test('moving forwards over start, succeeds', function () {
+      var dice = 3;
+      boardController.board
+        .getTokenList()
+        [player.user_id].setPosition(
+          boardController.board.getPath().length - 1
+        );
+
+      boardController.movePlayerTokenForwards(player.user_id, dice);
+      expect(
+        boardController.board.getTokenList()[player.user_id].getPosition()
+      ).toEqual(2);
+    });
+
+    test('moving backwards over start, succeeds', function () {
+      var dice = 3;
+      boardController.board.getTokenList()[player.user_id].setPosition(0);
+
+      boardController.movePlayerTokenBackwards(player.user_id, dice);
+      expect(
+        boardController.board.getTokenList()[player.user_id].getPosition()
+      ).toEqual(17);
+    });
+
+    test('moving backwards from goal, succeeds', function () {
+      var dice = 3;
+      boardController.board
+        .getTokenList()
+        [player.user_id].setPosition(
+          boardController.board.getPath().length - 1
+        );
+
+      boardController.movePlayerTokenBackwards(player.user_id, dice);
+      expect(
+        boardController.board.getTokenList()[player.user_id].getPosition()
+      ).toEqual(16);
+    });
   });
 
-  test('in forward direction, succeeds', function () {
-    var dice = 3;
-    boardController.movePlayerTokenForwards(player.user_id, dice);
-    expect(
-      boardController.board.getTokenList()[player.user_id].getPosition()
-    ).toEqual(3);
-  });
+  describe('when isRounds is disabled ', function () {
+    beforeEach(function () {
+      if (boardController.isRounds()) boardController.toggleRounds;
+    });
 
-  test('in backward direction, succeeds', function () {
-    var dice = 3;
-    boardController.movePlayerTokenBackwards(player.user_id, dice);
-    expect(
-      boardController.board.getTokenList()[player.user_id].getPosition()
-    ).toEqual(-3);
+    test('moving forwards from start, succeeds', function () {
+      return false;
+    });
+
+    test('moving forwards over start, fails', function () {
+      return false;
+    });
+
+    test('moving backwards over start, fails', function () {
+      return false;
+    });
+
+    test('moving backwards from goal, succeeds', function () {
+      return false;
+    });
   });
 });
