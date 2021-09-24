@@ -96,23 +96,40 @@ describe('BoardController moves PlayerToken correctly ', function () {
 
   describe('when isRounds is disabled ', function () {
     beforeEach(function () {
-      if (boardController.isRounds()) boardController.toggleRounds;
+      if (boardController.isRounds()) boardController.toggleRounds();
+      var position = 0;
+      boardController.addPlayerToken(player, position);
     });
 
     test('moving forwards from start, succeeds', function () {
-      return false;
+      var dice = 3;
+      boardController.movePlayerTokenForwards(player.user_id, dice);
+      expect(
+        boardController.board.getTokenList()[player.user_id].getPosition()
+      ).toEqual(3);
     });
 
     test('moving forwards over start, fails', function () {
-      return false;
+      var dice = 3;
+      boardController.board.getTokenList()[player.user_id].setPosition(19);
+      boardController.movePlayerTokenForwards(player.user_id, dice);
+      expect(
+        boardController.board.getTokenList()[player.user_id].getPosition()
+      ).toEqual(19);
     });
 
     test('moving backwards over start, fails', function () {
-      return false;
+      var dice = 3;
+      boardController.movePlayerTokenBackwards(player.user_id, dice);
+      expect(
+        boardController.board.getTokenList()[player.user_id].getPosition()
+      ).toEqual(0);
     });
 
     test('moving backwards from goal, succeeds', function () {
-      return false;
+      var dice = 3;
+      boardController.board.getTokenList()[player.user_id].setPosition(19);
+      boardController.movePlayerTokenBackwards(player.user_id, dice);
     });
   });
 });

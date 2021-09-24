@@ -68,14 +68,20 @@ class BoardController {
     if (this.isRounds()) {
       token.setPosition(token.getPosition() % this.board.getPath().length);
     }
+
+    if (
+      !this.isRounds() &&
+      token.getPosition() >= this.board.getPath().length
+    ) {
+      token.setPosition(this.board.getPath().length - 1);
+    }
   }
 
   movePlayerTokenBackwards(player_id, dice) {
     var token = this.board.getTokenList()[player_id];
     token.moveBackward(dice);
-    
+
     if (token.getPosition() < 0) {
-      
       if (this.isRounds()) {
         var val = this.board.getPath().length + token.getPosition();
         token.setPosition(val);
