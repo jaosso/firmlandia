@@ -14,13 +14,14 @@
   "license": "MIT",
   "devDependencies": {
     "eslint": "^7.32.0",
-    "jest": "^27.1.1",
+    "jest": "^27.0.0",
     "nodemon": "^2.0.12",
     "superagent": "^6.1.0",
     "supertest": "^6.1.6"
   },
   "dependencies": {
     "express": "^4.17.1",
+    "mathjs": "^9.5.0",
     "npm": "^7.21.1",
     "phaser": "^3.55.2",
     "really-need": "^1.9.2"

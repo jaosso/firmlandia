@@ -36,8 +36,21 @@ var boardSettings = {
 };
 
 var pointMarkerSettings = {
-  shape: ['001100', '011110', '111111', '011110', '001100'],
-  state: ['NNNNNN', 'NNNNNN', 'NNNNNN', 'NNNNNN', 'NNNNNN'],
+  shape: [
+    [0, 0, 1, 1, 0, 0],
+    [0, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 0, 0],
+  ],
+  state: [
+    [null, null, null, null, null, null],
+    [null, null, null, null, null, null],
+    [null, null, null, null, null, null],
+    [null, null, null, null, null, null],
+    [null, null, null, null, null, null],
+  ],
   points: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 },
   playerToSign: {
     '001': 0,
@@ -54,8 +67,25 @@ var pointMarkerSettings = {
 };
 
 var newPointMarkerSettings = {
-  shape: ['001100', '011110', '111111', '011110', '001100'],
-  state: ['NN0NNN', 'N1111N', '222222', 'N3333N', 'NN44NN'],
+  shape: [
+    [0, 0, 1, 1, 0, 0],
+    [0, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 0, 0],
+  ],
+  state: [
+    'NN0NNN',
+    'N1111N',
+    '222222',
+    'N3333N',
+    'NN44NN'[(null, null, 0, null, null, null)],
+    [null, 1, 1, 1, 1, null],
+    [2, 2, 2, 2, 2, 2],
+    [null, 3, 3, 3, 3, null],
+    [null, null, 4, 4, null, null],
+  ],
   points: { 0: 1, 1: 4, 2: 6, 3: 4, 4: 2, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0 },
   playerToSign: {
     '001': 0,
