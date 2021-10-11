@@ -10,6 +10,9 @@ describe('PointMarkerController ', function () {
 
   test('constructor works properly, succeeds', function () {
     expect(point_marker_controller).not.toEqual(null);
+    expect(point_marker_controller.getShape()).toEqual(
+      pointMarkerSettings.shape
+    );
   });
 
   test('add a new player, succeeds', function () {
@@ -44,7 +47,7 @@ describe('PointMarkerController ', function () {
     var markerShape2;
     var shape;
     var controller;
-    beforeAll(function () {
+    beforeEach(function () {
       user1 = { user_id: 0, user_color: 'blue' };
       user2 = { user_id: 1, user_color: 'red' };
       markerShape1 = {
@@ -100,6 +103,66 @@ describe('PointMarkerController ', function () {
       ]);
     });
 
+    test('add marker with 90 degree rotation on valid place on the empty board, succeeds', function () {
+      expect(
+        controller.placeMarker({
+          user_id: 0,
+          marker_id: 1,
+          position: { x: 2, y: 2 },
+          rotation: 1,
+        })
+      ).toEqual(5);
+
+      expect(controller.getState()).toEqual([
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, 0, 0, 0, null],
+        [null, null, 0, null, null, null],
+        [null, null, 0, null, null, null],
+        [null, null, null, null, null, null],
+      ]);
+    });
+
+    test('add marker with 180 degree rotation on valid place on the empty board, succeeds', function () {
+      expect(
+        controller.placeMarker({
+          user_id: 0,
+          marker_id: 1,
+          position: { x: 2, y: 2 },
+          rotation: 2,
+        })
+      ).toEqual(5);
+
+      expect(controller.getState()).toEqual([
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, 0, 0, 0, null],
+        [null, null, null, null, 0, null],
+        [null, null, null, null, 0, null],
+        [null, null, null, null, null, null],
+      ]);
+    });
+
+    test('add marker with 270 degree rotation on valid place on the empty board, succeeds', function () {
+      expect(
+        controller.placeMarker({
+          user_id: 0,
+          marker_id: 1,
+          position: { x: 2, y: 2 },
+          rotation: 3,
+        })
+      ).toEqual(5);
+
+      expect(controller.getState()).toEqual([
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, null, null, 0, null],
+        [null, null, null, null, 0, null],
+        [null, null, 0, 0, 0, null],
+        [null, null, null, null, null, null],
+      ]);
+    });
+
     test('add marker with default rotation on invalid place, fails', function () {
       expect(
         controller.placeMarker({
@@ -112,6 +175,13 @@ describe('PointMarkerController ', function () {
     });
 
     test('add marker with default rotation on occupied place, fails', function () {
+      controller.placeMarker({
+        user_id: 0,
+        marker_id: 0,
+        position: { x: 2, y: 0 },
+        rotation: 0,
+      });
+
       expect(
         controller.placeMarker({
           user_id: 1,
@@ -120,6 +190,34 @@ describe('PointMarkerController ', function () {
           rotation: 0,
         })
       ).toBeFalsy();
+    });
+
+    test('add marker so one empty tile is surrounded by one player, succeeds', function () {
+      let markerShape3 = {
+        shape_id: 2,
+        shape_name: 'shape 3',
+        shape: [
+          [1, 1, 1],
+          [1, 0, 1],
+          [1, 1, 1],
+        ],
+      };
+      controller.addMarkerShape(markerShape3);
+      controller.placeMarker({
+        user_id: 0,
+        marker_id: 2,
+        position: { x: 2, y: 2 },
+        rotation: 0,
+      });
+
+      expect(controller.getState()).toEqual([
+        [null, null, null, null, null, null],
+        [null, null, null, null, null, null],
+        [null, null, 0, 0, 0, null],
+        [null, null, 0, 0, 0, null],
+        [null, null, 0, 0, 0, null],
+        [null, null, null, null, null, null],
+      ]);
     });
   });
 });

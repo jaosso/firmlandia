@@ -1,5 +1,4 @@
 const { PointMarker } = require('../models/point_marker');
-const { matrix, pi, rotationMatrix } = require('mathjs');
 
 class PointMarkerController {
   constructor(opt) {
@@ -48,26 +47,26 @@ class PointMarkerController {
 
   placeMarker(opt) {
     var sign = this.getPlayerSign({ user_id: opt.user_id });
-    var markerShape = this.getMarkerShape(opt.marker_id).shape;
+    var markerShape;
+    if (opt.rotation === 0) {
+      markerShape = this.getMarkerShape(opt.marker_id).shape;
+    } else if (opt.rotation === 1) {
+      markerShape = this.getMarkerShape(opt.marker_id).shape90;
+    } else if (opt.rotation === 2) {
+      markerShape = this.getMarkerShape(opt.marker_id).shape180;
+    } else if (opt.rotation === 3) {
+      markerShape = this.getMarkerShape(opt.marker_id).shape270;
+    }
     var shape = this.pointMarker.getShape();
     var state = this.pointMarker.getState();
     var x_offset = opt.position.x;
     var y_offset = opt.position.y;
 
-    var markerShape90 = this.rotate(markerShape);
-    var markerShape180 = this.rotate(markerShape90);
-    var markerShape270 = this.rotate(markerShape180);
-
-    console.log(markerShape);
-    console.log(markerShape90);
-    console.log(markerShape180);
-    console.log(markerShape270);
-
     // TODO: check if all point fields are free and part of the shape
 
     for (let y in markerShape) {
       for (let x in markerShape[y]) {
-        if (markerShape[y][x] == 1) {
+        if (markerShape[y][x] === 1) {
           // check if shape is out of boundary
           if (shape[y_offset + parseInt(y)][x_offset + parseInt(x)] == 0) {
             console.log('out of boundary');
@@ -85,10 +84,33 @@ class PointMarkerController {
     // TODO: if so, replace the corresponding fields in the state mat
     for (let y in markerShape) {
       for (let x in markerShape[y]) {
-        if (markerShape[y][x] == 1) {
+        if (markerShape[y][x] === 1) {
           // replace state x y with sign if marker x y is 1
-          if (markerShape[y][x] == 1) {
+          if (markerShape[y][x] === 1) {
             state[y_offset + parseInt(y)][x_offset + parseInt(x)] = sign;
+          }
+        }
+      }
+    }
+
+    // check if fields are surrounded
+    for (let y in state) {
+      for (let x in state) {
+        // check if field is surroundable
+        if (y > 0 && x > 0 && y < state.length - 1 && x < state[y].length - 1) {
+          let cnt = 0;
+          for (let m = -1; m < 2; m++) {
+            for (let n = -1; n < 2; n++) {
+              let ym = parseInt(y) + parseInt(m);
+              let xn = parseInt(x) + parseInt(n);
+              if (state[ym][xn] === sign) {
+                cnt++;
+              }
+            }
+          }
+          if (cnt === 8) {
+            state[y][x] = sign;
+            console.log('surrounded');
           }
         }
       }
@@ -98,29 +120,11 @@ class PointMarkerController {
     var points = 0;
     for (let y in state) {
       for (let x in state[y]) {
-        if (state[y][x] == sign) points++;
+        if (state[y][x] === sign) points++;
       }
     }
     this.setPointsOfPlayer({ user_id: opt.user_id }, points);
     return points;
-  }
-
-  rotate(mat) {
-    // 1. transpose mat
-    var rot = this.pointMarker.createEmptyArray(mat.length, mat[0].length);
-
-    for (let col in mat) {
-      for (let row in mat) {
-        rot[col][row] = mat[row][col];
-      }
-    }
-
-    // 2. reverse all cols
-    for (let col in rot) {
-      rot[col] = rot[col].reverse();
-    }
-    
-    return rot;
   }
 }
 
