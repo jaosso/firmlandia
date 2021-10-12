@@ -96,7 +96,6 @@ class PointMarkerController {
     // check if fields are surrounded
     for (let y in state) {
       for (let x in state) {
-        // check if field is surroundable
         if (y > 0 && x > 0 && y < state.length - 1 && x < state[y].length - 1) {
           let cnt = 0;
           for (let m = -1; m < 2; m++) {
