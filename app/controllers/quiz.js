@@ -26,8 +26,16 @@ class Quiz {
     this.questions[question.question_id] = question;
   }
 
-  getQuestion(question_id) {
+  getQuestionByID(question_id) {
     return this.questions[question_id];
+  }
+
+  replaceCatalog(catalog) {
+    this.questions = catalog;
+  }
+
+  getQuestionCatalog() {
+    return this.questions;
   }
 }
 

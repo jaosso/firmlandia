@@ -21,6 +21,50 @@ describe('Quiz ', function () {
       right_answer: 4,
     };
     quiz.addQuestion(question);
-    expect(quiz.getQuestion(question.question_id)).toEqual(question);
+    expect(quiz.getQuestionByID(question.question_id)).toEqual(question);
+  });
+
+  test('replace question catalog, succeeds', function () {
+    let catalog = {
+      0: {
+        question_id: 0,
+        question: 'What is the right answer?',
+        answer1: 'wrong answer',
+        answer2: 'wrong answer',
+        answer3: 'wrong answer',
+        answer4: 'right answer',
+        right_answer: 4,
+      },
+      1: {
+        question_id: 1,
+        question: 'What is the right answer?',
+        answer1: 'wrong answer',
+        answer2: 'wrong answer',
+        answer3: 'wrong answer',
+        answer4: 'right answer',
+        right_answer: 4,
+      },
+      2: {
+        question_id: 1,
+        question: 'What is the right answer?',
+        answer1: 'wrong answer',
+        answer2: 'wrong answer',
+        answer3: 'wrong answer',
+        answer4: 'right answer',
+        right_answer: 4,
+      },
+      3: {
+        question_id: 1,
+        question: 'What is the right answer?',
+        answer1: 'wrong answer',
+        answer2: 'wrong answer',
+        answer3: 'wrong answer',
+        answer4: 'right answer',
+        right_answer: 4,
+      },
+    };
+
+    quiz.replaceCatalog(catalog);
+    expect(quiz.getQuestionCatalog()).toEqual(catalog);
   });
 });
