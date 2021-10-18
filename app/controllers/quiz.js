@@ -3,6 +3,7 @@ class Quiz {
     conf = Object.assign(
       {
         questions: {},
+        asked: {},
       },
       conf
     );
@@ -32,6 +33,14 @@ class Quiz {
 
   replaceCatalog(catalog) {
     this.questions = catalog;
+  }
+
+  setAsked(asked) {
+    this.asked = asked;
+  }
+
+  getAskedList() {
+    return this.asked;
   }
 
   getQuestionCatalog() {
