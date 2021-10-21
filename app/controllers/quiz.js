@@ -9,6 +9,12 @@ class Quiz {
     );
 
     this.questions = conf.questions;
+    this.asked = conf.asked;
+    this.queue = [];
+    
+    for (let [key, ] of Object.entries(this.questions)) {
+      this.queue.push(key);
+    }
   }
 
   addQuestion(question) {
@@ -25,6 +31,8 @@ class Quiz {
       question
     );
     this.questions[question.question_id] = question;
+    this.asked[question.question_id] = false;
+    this.queue.push(question.question_id);
   }
 
   getQuestionByID(question_id) {
@@ -33,6 +41,13 @@ class Quiz {
 
   replaceCatalog(catalog) {
     this.questions = catalog;
+    this.asked = {};
+    this.queue = [];
+
+    for (let [key, ] of Object.entries(catalog)) {
+      this.asked[key] = false;
+      this.queue.push(key);
+    }
   }
 
   setAsked(asked) {
@@ -45,6 +60,12 @@ class Quiz {
 
   getQuestionCatalog() {
     return this.questions;
+  }
+
+  popQuestion() {
+    let id = this.queue.pop();
+    this.asked[id] = true;
+    return this.questions[id];
   }
 }
 
