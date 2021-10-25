@@ -76,11 +76,7 @@ var newPointMarkerSettings = {
     [0, 0, 1, 1, 0, 0],
   ],
   state: [
-    'NN0NNN',
-    'N1111N',
-    '222222',
-    'N3333N',
-    'NN44NN'[(null, null, 0, null, null, null)],
+    [null, null, 0, null, null, null],
     [null, 1, 1, 1, 1, null],
     [2, 2, 2, 2, 2, 2],
     [null, 3, 3, 3, 3, null],
